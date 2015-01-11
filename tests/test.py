@@ -1,7 +1,9 @@
 import sys, os
 sys.path.insert(0, "..")
-from decode import QRDecoder
+from new import *
 
+# SECCON CTF Quals 2014 winter
+# "QR_Easy"
 raw = """
 ?????????????????x    xxxxxxx
 ????????????????? xxx x     x
@@ -34,6 +36,15 @@ raw = """
 ???????????????????xx xxxx xx
 """
 
-dc = QRDecoder(raw)
-dc.decode()
+ver, arr = to_arr(raw)
+
+print "version", ver
+print dump_arr(arr, {0:'.',1:'#',2:'~'}, True)
+
+arr = mask(ver, arr, 0)
+print dump_arr(arr, {0:'.',1:'#',2:'~'}, True)
+
+words = walk(ver, arr)
+for i, w in enumerate(words):
+    print i, w
 
