@@ -1,6 +1,6 @@
 import sys, os
 sys.path.insert(0, "..")
-from new import *
+from decoder import *
 from codec import *
 
 # SECCON CTF Quals 2014 winter

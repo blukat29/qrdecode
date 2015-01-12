@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, "..")
-from new import *
+from decoder import *
 from codec import *
 
 s = """
