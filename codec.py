@@ -11,6 +11,8 @@ class QRCodec:
                 text, data = AlnumCodec.decode(ver, data)
             elif mode == "0100":
                 text, data = ByteCodec.decode(ver, data)
+            elif mode == "0000":
+                break
             else:
                 break
             all_text += text
