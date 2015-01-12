@@ -38,20 +38,8 @@ raw = """
 """
 
 ver, arr = to_arr(raw)
-
-print "version", ver
-print dump_arr(arr, {0:'.',1:'#',2:'~'}, True)
-
 arr = mask(ver, arr, 1)
-print dump_arr(arr, {0:'.',1:'#',2:'~'}, True)
-
 words = walk(ver, arr)
-w = []
-for i in range(13):
-    w.append(words[i*2])
-for i in range(13):
-    w.append(words[i*2+1])
-w = ''.join(w)
-print QRCodec.decode(ver, w)
-
+dat, ecc = split_blocks(ver, 3, words)
+print QRCodec.decode(ver, dat)
 

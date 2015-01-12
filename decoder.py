@@ -166,3 +166,27 @@ def walk(ver, arr):
 
     return words
 
+
+def split_blocks(ver, ec_level, words):
+    ecc_per_block = ecc_length_table[ver][ec_level]
+    block_size = block_size_table[ver][ec_level]
+
+    block_count = block_size[0]
+    data_count = block_size[0] * block_size[1]
+    if len(block_size) > 2:
+        block_count += block_size[2]
+        data_count += block_size[2] * block_size[3]
+    ecc_count = block_count * ecc_per_block
+
+    data_blocks = ["" for i in range(block_count)]
+    for i in range(data_count):
+        data_blocks[i % block_count] += words[i]
+
+    words = words[data_count:]
+    ecc_blocks = ["" for i in range(block_count)]
+    for i in range(ecc_count):
+        ecc_blocks[i % block_count] += words[i]
+        print i
+
+    return ''.join(data_blocks), ''.join(ecc_blocks)
+

@@ -30,7 +30,6 @@ s = """
 ver, arr = to_arr(s)
 arr = mask(ver, arr, 1)
 words = walk(ver, arr)
-w = ''.join(words[:9])
-print QRCodec.decode(ver, w)
-
+dat, ecc = split_blocks(ver, 3, words)
+print QRCodec.decode(ver, dat)
 
