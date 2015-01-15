@@ -38,8 +38,9 @@ raw = """
 """
 
 ver, arr = to_arr(raw)
-arr = mask(ver, arr, 1)
+ec_level, mask_id = read_format(arr, strict=False)
+arr = mask(ver, arr, mask_id)
 words = walk(ver, arr)
-dat, ecc = split_blocks(ver, 3, words)
+dat, ecc = split_blocks(ver, ec_level, words)
 print QRCodec.decode(ver, dat)
 

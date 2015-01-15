@@ -49,6 +49,58 @@ def to_arr(s):
     return ver, dat
 
 
+def _hamming_distance(n, s):
+    """
+    Hamming distance between {0,1,2}^k and {"0","1"}^k.
+    Distance between 2 and anything is 1.
+    """
+    dist = 0
+    for i in range(min(len(n), len(s))):
+        if n[i] != int(s[i]):
+            dist += 1
+    dist += abs(len(n) - len(s))
+    return dist
+
+
+def read_format(arr, strict=False):
+    """
+    The array must be the one before unmasking.
+    Extract format string from full array and interpret it.
+    Recover possible error. Returns (ec_level, mask_id)
+    """
+    # Extract raw bits
+    horz_idxes = [0,1,2,3,4,5,7] + [-8,-7,-6,-5,-4,-3,-2,-1]
+    horz_fs = map(lambda i: arr[8][i], horz_idxes)
+    vert_idxes = [-1,-2,-3,-4,-5,-6,-7] + [8,7] + [5,4,3,2,1,0]
+    vert_fs = map(lambda i: arr[i][8], vert_idxes)
+
+    max_dist = 100
+    horz_idx = -1
+    vert_idx = -1
+    for i, s in enumerate(format_string_table):
+        d = _hamming_distance(horz_fs, s)
+        if d < max_dist:
+            if not strict or d <= 3:
+                max_dist = d
+                horz_idx = i
+        d = _hamming_distance(vert_fs, s)
+        if d < max_dist:
+            if not strict or d <= 3:
+                max_dist = d
+                vert_idx = i
+
+    if horz_idx == -1 and vert_idx == -1:
+        raise ValueError("Cannot decode format string")
+    elif horz_idx == -1:
+        return vert_idx // 8, vert_idx % 8
+    elif vert_idx == -1:
+        return horz_idx // 8, horz_idx % 8
+    elif horz_idx == vert_idx:
+        return horz_idx // 8, horz_idx % 8
+    else:
+        raise ValueError("Two format strings disagree")
+
+
 def mask(ver, arr, mask_id):
 
     if mask_id not in range(8):
@@ -186,7 +238,6 @@ def split_blocks(ver, ec_level, words):
     ecc_blocks = ["" for i in range(block_count)]
     for i in range(ecc_count):
         ecc_blocks[i % block_count] += words[i]
-        print i
 
     return ''.join(data_blocks), ''.join(ecc_blocks)
 
