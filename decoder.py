@@ -239,5 +239,5 @@ def split_blocks(ver, ec_level, words):
     for i in range(ecc_count):
         ecc_blocks[i % block_count] += words[i]
 
-    return ''.join(data_blocks), ''.join(ecc_blocks)
+    return data_blocks, ecc_blocks
 
