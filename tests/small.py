@@ -34,6 +34,5 @@ arr = mask(ver, arr, mask_id)
 words = walk(ver, arr)
 dat, ecc = split_blocks(ver, ec_level, words)
 dat = correct_errors(dat, ecc)
-dat = ''.join(dat)
 print QRCodec.decode(ver, dat)
 

@@ -2,6 +2,7 @@
 class QRCodec:
     @staticmethod
     def decode(ver, data):
+        data = ''.join(data).replace('2','0')
         all_text = ""
         while True:
             if len(data) < 8:
