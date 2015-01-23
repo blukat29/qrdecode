@@ -9,10 +9,7 @@ def run_case(raw):
     arr = mask(ver, arr, mask_id)
     words = walk(ver, arr)
     dat, ecc = split_blocks(ver, ec_level, words)
-    try:
-        dat = correct_errors(dat, ecc)
-    except:
-        pass
+    dat = correct_errors(dat, ecc)
     res = QRCodec.decode(ver, dat)
     return res
 
