@@ -49,6 +49,6 @@ public class SimpleQRDetector {
     }
 
     BitMatrix mat = result.getBits();
-    System.out.println(mat.toString("X"," "));
+    System.out.print(mat.toString("X"," "));
   }
 }
